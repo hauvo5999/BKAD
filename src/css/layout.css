@@ -1,0 +1,11 @@
+/* .wrapper {
+  width: 100%;
+  will-change: auto;
+  transition: padding .15s;
+} */
+
+.user-symbol {
+  position: absolute;
+  top: 0px;
+  left: 0px; 
+}
