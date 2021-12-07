@@ -3,12 +3,25 @@ import { CButton, CCol, CFormLabel, CFormInput, CRow, CForm, CContainer, CImage 
 import { browserHistory, Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: '',
+        };
+    }
+    onInputchange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
     login = () => {
-        let userName = document.getElementById('inputUsername').value
-        let passWord = document.getElementById('inputPassword').value
+        console.log('username:',  this.state.username)
+        console.log('password:',  this.state.password)
         // TODO - Handle login here
         this.props.history.push('/home');
     }
+
     render() {
         return (
             <CContainer>
@@ -34,11 +47,17 @@ class Login extends React.Component {
                         <CForm style={{ padding: '5em 10em' }}>
                             <div className="mb-3">
                                 <CFormLabel htmlFor="inputUsername" style={{ alignContent: 'start' }}>USERNAME</CFormLabel>
-                                <CFormInput type="text" id="inputUsername" />
+                                <CFormInput type="text" id="inputUsername" value={this.state.username} 
+                                name='username'
+                                onChange={e => this.setState({ 'username': e.target.value })} 
+                                />
                             </div>
                             <div className="mb-3">
                                 <CFormLabel htmlFor="inputPassword" style={{ alignContent: 'start' }}>PASSWORD</CFormLabel>
-                                <CFormInput type="password" id="inputPassword" />
+                                <CFormInput type="password" id="inputPassword" value={this.state.password} 
+                                name='password'
+                                onChange={e => this.setState({ 'password': e.target.value })}
+                                />
                             </div>
                             <div style={{ textAlign: 'center' }}>
                                 <CButton color="primary" size="lg" onClick={this.login}>Login</CButton>
