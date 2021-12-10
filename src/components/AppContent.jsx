@@ -4,7 +4,7 @@ import { Redirect, Route, Switch, withRouter } from "react-router-dom"
 import HomePage from "./homepage"
 import LogNote from "./LogNote"
 import Setting from "./Setting"
-import UserSymbolDropdown from "./UserSynbol"
+import UserSymbolDropdown from "./UserSymbol"
 
 class AppContent extends React.Component {
     render() {

@@ -11,13 +11,16 @@ import { withRouter } from 'react-router-dom';
 
 class UserSymbolDropdown extends React.Component {
     componentDidMount = () => {
-        var is_login = true     // TODO - Get login here
-        if (!is_login) {
+
+        var accessToken = window.localStorage.getItem('accessToken')
+        if (accessToken == null) {
             this.props.history.push('/login');
         }
     }
     logout = () => {
         // TODO - handle logout here
+        console.log("logout")
+        window.localStorage.setItem('accessToken', null)
         this.props.history.push('/login');
     }
     render(){

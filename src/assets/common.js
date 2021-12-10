@@ -1,4 +1,5 @@
-export const BE_URL = 'https://is-face-mask-detection.herokuapp.com/'
+// export const BE_URL = 'https://is-face-mask-detection.herokuapp.com/'
+export const BE_URL = 'https://3fe0-1-54-43-160.ngrok.io/'
 export const apiGet = async (url) => {
     const response =  await fetch(url, {
         method: 'GET',

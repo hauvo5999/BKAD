@@ -1,5 +1,5 @@
 import React from "react"
-import { CButton, CCol, CFormLabel, CFormInput, CRow, CForm, CContainer, CImage } from '@coreui/react';
+import { CButton, CCol, CFormLabel, CFormInput, CRow, CForm, CContainer, CImage, CAlert } from '@coreui/react';
 import { BE_URL, apiPost } from "../assets/common";
 
 class Login extends React.Component {
@@ -25,7 +25,8 @@ class Login extends React.Component {
                     "username": "hau",
                     "email": "hau@gmail.com"
                 }
-            ]
+            ],
+            errorVisible: false
         };
     }
 
@@ -44,19 +45,21 @@ class Login extends React.Component {
         });
     }
     login = () => {
+        this.setState({ errorVisible: false })
         // TODO - Handle login here
         let loginData = new FormData()
         loginData.append('email', this.state.username);
         loginData.append('password', this.state.password);
-        // var loginData = {
-        //     "email": this.state.username,
-        //     "password": this.state.password
-        // }
-        apiPost(BE_URL + 'api/auth/login/', loginData).then(res => {
-            console.log('access:', res.access)
-            window.localStorage.setItem('accessToken', res.access)
-        });
-        this.props.history.push('/home');
+        // apiPost(BE_URL + 'api/auth/login/', loginData).then(res => {
+        //     console.log('access:', res.access)
+        //     window.localStorage.setItem('accessToken', res.access)
+        // });
+        if (this.state.username === 'admin@gmail.com' && (this.state.password === 'admin' || this.state.password === '123456')) {
+            window.localStorage.setItem('accessToken', 'dqgqjqkfbqfhbqw')
+            this.props.history.push('/home');
+        } else {
+            this.setState({ errorVisible: true })
+        }
     }
 
     render() {
@@ -100,6 +103,9 @@ class Login extends React.Component {
                                 <CButton color="primary" size="lg" onClick={this.login}>Login</CButton>
                             </div>
                         </CForm>
+                        <CAlert color="danger" visible={this.state.errorVisible}>
+                            Wrong username or password!!!
+                        </CAlert>
                     </CCol>
                 </CRow>
             </CContainer>
