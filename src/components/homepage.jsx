@@ -52,9 +52,6 @@ class HomePage extends React.Component {
             .drawImage(video, 0, 0, canvas.width, canvas.height)
         // convert it to a usable data URL
         const dataURL = canvas.toDataURL()
-        console.log('dataURL:', dataURL)
-        var img = document.getElementById("capture")
-        img.src = dataURL
         // base64 to BLOB
         var blob = b64toBlob(dataURL)
 
@@ -63,7 +60,24 @@ class HomePage extends React.Component {
         data.append('img', new File([blob], 'capture.jpg'))
         apiPost(BE_URL + 'mask-detect/', data).then(res => {
             // TODO - Get and show result
-            console.log(res)
+            const result = JSON.parse(res.result)
+            const faceBox = document.getElementById("face-box")
+
+            console.log(result)
+
+            if(result.length === 0) {
+                faceBox.style.display = 'none'
+                return;
+            }
+
+            const {label, x, y, w, h} = result[0]
+            
+            faceBox.style.display = 'block'
+            faceBox.style.bottom = y + 100 + "px"
+            faceBox.style.left = x + 80 + "px"
+            faceBox.style.width = w + "px"
+            faceBox.style.height = h + "px"
+            faceBox.style.borderColor = label === 1 ? "green" : "red"
         })
 
     }
@@ -78,14 +92,15 @@ class HomePage extends React.Component {
             <>
                 <CRow>
                     <CCol style={{ padding: '5em' }}>
-                        <div id="video-div" style={{ width: '100%', textAlign: 'center' }}>
+                        <div id="video-div" style={{ width: '100%', textAlign: 'center', height: 'fit-content', position: 'relative' }}>
                             <video
                                 autoPlay={true}
                                 muted={true}
                                 id="video"
                                 // onPlaying={this.checkPlayingVideo}
-                                style={{ borderRadius: '3%' }}
+                                style={{ borderRadius: '3%', width: '100%' }}
                             />
+                            <div id="face-box" style={{ height: '100px', width: '100px', border: '4px solid green', position: 'absolute', bottom: '0px', display: 'none'}}></div>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <CButtonGroup>
@@ -102,7 +117,6 @@ class HomePage extends React.Component {
                                     style={{ margin: '0 10px' }}
                                 >Stop</CButton>
                             </CButtonGroup>
-                            <img id='capture' src='' />
                         </div>
                     </CCol>
                 </CRow>
