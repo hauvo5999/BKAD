@@ -1,4 +1,4 @@
-import { CHeader, CHeaderNav, CNavbarNav, CContainer } from "@coreui/react"
+import { CContainer } from "@coreui/react"
 import React from "react"
 import { Redirect, Route, Switch, withRouter } from "react-router-dom"
 import HomePage from "./homepage"

@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-    CBadge,
     CDropdown,
     CDropdownItem,
     CDropdownMenu,
     CDropdownToggle,
-    CImage
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 import { cilUser } from '@coreui/icons';
