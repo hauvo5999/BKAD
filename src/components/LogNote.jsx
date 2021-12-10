@@ -28,7 +28,7 @@ class LogNote extends React.Component {
     }
     componentDidMount() {
         // Get log content from BE
-        apiGet(BE_URL + 'log').then(res => {
+        apiGet(BE_URL + 'log/').then(res => {
             console.log('log_data:', res)
             if (res) {
                 // TODO - paging data

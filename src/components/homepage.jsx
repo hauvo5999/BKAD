@@ -2,7 +2,7 @@ import { CRow, CCol, CButtonGroup, CButton } from "@coreui/react"
 import { data } from "jquery"
 import React from "react"
 import { Redirect } from "react-router-dom"
-import { apiPost, BE_URL } from "../assets/common"
+import { apiPost, BE_URL, b64toBlob } from "../assets/common"
 
 class HomePage extends React.Component {
     constructor() {
@@ -41,26 +41,37 @@ class HomePage extends React.Component {
         this.setState({ intervalId: intervalId });
     }
 
-    detect = () => {
-        const video = document.getElementById("video");
-        const canvas = document.createElement("canvas");
+    _detect = () => {
+        const video = document.getElementById("video")
+        const canvas = document.createElement("canvas")
         // scale the canvas accordingly
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
         // draw the video at that frame
         canvas.getContext('2d')
-            .drawImage(video, 0, 0, canvas.width, canvas.height);
+            .drawImage(video, 0, 0, canvas.width, canvas.height)
         // convert it to a usable data URL
-        const dataURL = canvas.toDataURL();
-        console.log('dataURL:')
+        const dataURL = canvas.toDataURL()
+        console.log('dataURL:', dataURL)
+        var img = document.getElementById("capture")
+        img.src = dataURL
+        // base64 to BLOB
+        var blob = b64toBlob(dataURL)
+
         // post image to detect
         let data = new FormData()
-        data.append('Images', dataURL)
-        apiPost(BE_URL + 'mask-detect', data).then(res => {
+        data.append('img', blob)
+        apiPost(BE_URL + 'mask-detect/', data).then(res => {
+            // TODO - Get and show result
             console.log(res)
-        });
-        var img = document.getElementById("capture");
-        img.src = dataURL;
+        })
+
+    }
+    get detect() {
+        return this._detect
+    }
+    set detect(value) {
+        this._detect = value
     }
     render() {
         return (
