@@ -60,7 +60,7 @@ class HomePage extends React.Component {
 
         // post image to detect
         let data = new FormData()
-        data.append('img', blob)
+        data.append('img', new File([blob], 'capture.jpg'))
         apiPost(BE_URL + 'mask-detect/', data).then(res => {
             // TODO - Get and show result
             console.log(res)
